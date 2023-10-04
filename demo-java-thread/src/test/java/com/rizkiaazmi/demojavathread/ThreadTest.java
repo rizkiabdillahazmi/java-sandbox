@@ -59,4 +59,50 @@ public class ThreadTest {
         thread.join();
         System.out.println("Program Selesai");
     }
+
+    @Test
+    void threadInterrupt() throws InterruptedException {
+        Runnable runnable = () -> {
+            for (int i = 0; i < 10; i++) {
+                System.out.println("Runnable : " + i);
+                try {
+                    Thread.sleep(1_000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        var thread = new Thread(runnable);
+        thread.start();
+        Thread.sleep(5_000);
+        thread.interrupt();
+        System.out.println("Menunggu Selesai");
+        thread.join();
+        System.out.println("Program Selesai");
+    }
+
+    @Test
+    void threadInterruptCorrect() throws InterruptedException {
+        Runnable runnable = () -> {
+            for (int i = 0; i < 10; i++) {
+                // manual check interrupted
+                if (Thread.interrupted()) {
+                    return;
+                }
+                System.out.println("Runnable : " + i);
+                try {
+                    Thread.sleep(1_000);
+                } catch (InterruptedException e) {
+                    return;
+                }
+            }
+        };
+        var thread = new Thread(runnable);
+        thread.start();
+        Thread.sleep(5_000);
+        thread.interrupt();
+        System.out.println("Menunggu Selesai");
+        thread.join();
+        System.out.println("Program Selesai");
+    }
 }
