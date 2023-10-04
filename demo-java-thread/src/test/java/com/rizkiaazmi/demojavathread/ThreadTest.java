@@ -105,4 +105,11 @@ public class ThreadTest {
         thread.join();
         System.out.println("Program Selesai");
     }
+
+    @Test
+    void threadName() {
+        var thread = new Thread(() -> System.out.println("Run in thread : " + Thread.currentThread().getName()));
+        thread.setName("customThread");
+        thread.start();
+    }
 }
