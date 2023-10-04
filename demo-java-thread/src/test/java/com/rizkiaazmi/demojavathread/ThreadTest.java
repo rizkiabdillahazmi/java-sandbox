@@ -54,8 +54,9 @@ public class ThreadTest {
         var thread = new Thread(runnable);
         // Asynchronous
         thread.start();
-        System.out.println("Program Selesai");
+        System.out.println("Menunggu Selesai");
         // Wait until all process done
         thread.join();
+        System.out.println("Program Selesai");
     }
 }
