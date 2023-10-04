@@ -112,4 +112,16 @@ public class ThreadTest {
         thread.setName("customThread");
         thread.start();
     }
+
+    @Test
+    void threadState() throws InterruptedException {
+        var thread = new Thread(() -> {
+            System.out.println(Thread.currentThread().getState());
+            System.out.println("Hello from thread : " + Thread.currentThread().getName());
+        });
+        System.out.println(thread.getState());
+        thread.start();
+        thread.join();
+        System.out.println(thread.getState());
+    }
 }
