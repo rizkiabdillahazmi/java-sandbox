@@ -44,4 +44,24 @@ public class ExecutorServiceTest {
         executor.shutdown();
         executor.awaitTermination(1, TimeUnit.DAYS);
     }
+
+    @Test
+    void testExecutorServiceVirtualThread() throws InterruptedException {
+
+        var executor = Executors.newVirtualThreadPerTaskExecutor();
+
+        for (int i = 0; i < 100; i++) {
+            executor.execute(() -> {
+                try {
+                    Thread.sleep(1_000);
+                    System.out.println("Runnable in Thread : " + Thread.currentThread());
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        }
+
+        executor.shutdown();
+        executor.awaitTermination(1, TimeUnit.DAYS);
+    }
 }
