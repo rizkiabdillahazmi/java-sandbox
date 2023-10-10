@@ -2,10 +2,12 @@ package com.rizkiaazmi.demojavathread;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.stream.IntStream;
 
 public class FutureTest {
 
@@ -51,5 +53,22 @@ public class FutureTest {
 
         String value = future.get();
         System.out.println(value);
+    }
+
+    @Test
+    void invokeAll() throws InterruptedException, ExecutionException {
+
+        var executor = Executors.newVirtualThreadPerTaskExecutor();
+
+        List<Callable<String>> callables = IntStream.range(1, 11).mapToObj(value -> (Callable<String>) () -> {
+            Thread.sleep(value * 500L);
+            return String.valueOf(value);
+        }).toList();
+
+        List<Future<String>> futures = executor.invokeAll(callables);
+
+        for (Future<String> value : futures) {
+            System.out.println(value.get());
+        }
     }
 }
