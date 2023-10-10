@@ -41,6 +41,7 @@ public class ExecutorServiceTest {
             });
         }
 
+        executor.shutdown();
         executor.awaitTermination(1, TimeUnit.DAYS);
     }
 }
