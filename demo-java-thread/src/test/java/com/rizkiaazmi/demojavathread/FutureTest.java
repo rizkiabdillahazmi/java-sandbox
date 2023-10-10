@@ -71,4 +71,19 @@ public class FutureTest {
             System.out.println(value.get());
         }
     }
+
+    // Data yang paling cepat akan dikembalikan
+    @Test
+    void invokeAny() throws InterruptedException, ExecutionException {
+
+        var executor = Executors.newVirtualThreadPerTaskExecutor();
+
+        List<Callable<String>> callables = IntStream.range(1, 11).mapToObj(value -> (Callable<String>) () -> {
+            Thread.sleep(value * 500L);
+            return String.valueOf(value);
+        }).toList();
+
+        String result = executor.invokeAny(callables);
+        System.out.println(result);
+    }
 }
